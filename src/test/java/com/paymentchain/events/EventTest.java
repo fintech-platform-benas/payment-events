@@ -16,7 +16,7 @@ class EventTest{
     );
 
     String result = processEvent(event);
-    logger(result);
+    System.out.println(result);
   }
 
   String processEvent(TransactionEvent event){
