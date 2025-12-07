@@ -23,21 +23,24 @@ jobs:
           java-version: "17"
           distribution: "temurin"
           cache: "maven"
-          server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: MAVEN_TOKEN
 
-      - name: Build with Maven
-        run: mvn clean package -B
+      - name: Create Maven settings
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml << 'EOF'
+          <settings>
+            <servers>
+              <server>
+                <id>github</id>
+                <username>${{ github.actor }}</username>
+                <password>${{ secrets.MAVEN_TOKEN }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
 
-      - name: Run Tests
-        run: mvn test -B
-
-      - name: Publish to GitHub Packages
-        run: mvn --batch-mode deploy -DskipTests
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+      - name: Build and Publish
+        run: mvn --batch-mode deploy
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
