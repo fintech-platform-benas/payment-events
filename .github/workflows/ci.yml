@@ -24,8 +24,8 @@ jobs:
           distribution: "temurin"
           cache: "maven"
           server-id: github-payment-domain
-          server-username: GITHUB_ACTOR
-          server-password: MAVEN_TOKEN
+          server-username: ${{ github.actor }}
+          server-password: ${{ secrets.MAVEN_TOKEN }}
 
       - name: Cache Maven packages
         uses: actions/cache@v4
@@ -35,9 +35,6 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build with Maven
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
         run: mvn clean verify -B
 
       - name: Upload test results
@@ -67,8 +64,8 @@ jobs:
           distribution: "temurin"
           cache: "maven"
           server-id: github-payment-domain
-          server-username: GITHUB_ACTOR
-          server-password: MAVEN_TOKEN
+          server-username: ${{ github.actor }}
+          server-password: ${{ secrets.MAVEN_TOKEN }}
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
@@ -79,9 +76,7 @@ jobs:
 
       - name: SonarCloud Scan
         env:
-          GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.MAVEN_TOKEN }}
-          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn verify sonar:sonar \
