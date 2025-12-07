@@ -66,7 +66,7 @@ jobs:
           java-version: "17"
           distribution: "temurin"
           cache: "maven"
-          server-id: github-payment-domain
+          server-id: github
           server-username: GITHUB_ACTOR
           server-password: MAVEN_TOKEN
 

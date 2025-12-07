@@ -37,7 +37,7 @@ jobs:
         run: mvn deploy -DskipTests
         env:
           GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
